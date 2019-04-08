@@ -40,7 +40,25 @@
         <ion-input type="text" placeholder="{{ 'ITEM_NAME_PLACEHOLDER' | translate }}" formControlName="name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" placeholder="{{ 'ITEM_ABOUT_PLACEHOLDER' | translate }}" formControlName="about"></ion-input>
+        <ion-input type="text" placeholder="{{ 'ITEM_TITLE_PLACEHOLDER' | translate }}" formControlName="title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" placeholder="{{ 'ITEM_NUMBER_PLACEHOLDER' | translate }}" formControlName="num"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" placeholder="{{ 'ITEM_PRICE_PLACEHOLDER' | translate }}" formControlName="price"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-datetime displayFormat="YYYY-MM-DD"  formControlName="createDate" cancelText="取消" doneText="确定" placeholder="{{ 'ITEM_CREATE_DATE_PLACEHOLDER' | translate }}"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-datetime displayFormat="YYYY-MM-DD" formControlName="expireDate" cancelText="取消" doneText="确定" placeholder="{{ 'ITEM_EXPIRE_DATE_PLACEHOLDER' | translate }}"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="{{ 'ITEM_LINK_PLACEHOLDER' | translate }}" formControlName="link"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea  placeholder="{{ 'ITEM_NOTE_PLACEHOLDER' | translate }}" formControlName="note"></ion-textarea>
       </ion-item>
     </ion-list>
   </form>
