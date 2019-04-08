@@ -52,11 +52,15 @@
 
   "LIST_MASTER_TITLE": "首页",
 
-  "ITEM_CREATE_TITLE": "新项目",
+  "ITEM_CREATE_TITLE": "新增物品",
   "ITEM_CREATE_CHOOSE_IMAGE": "添加图片",
+
+  "DIR_CREATE_TITLE": "新增收藏夹",
 
   "ITEM_NAME_PLACEHOLDER": "名称",
   "ITEM_ABOUT_PLACEHOLDER": "关于",
+  "ITEM_TITLE_PLACEHOLDER": "标签",
+  "ITEM_NOTE_PLACEHOLDER": "说明",
 
   "DONE_BUTTON": "完 成",
   "CANCEL_BUTTON": "取 消",

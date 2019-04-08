@@ -25,19 +25,6 @@ export class ListMasterPage {
   ionViewDidLoad() {
   }
 
-  /**
-   * Prompt the user to add a new item. This shows our ItemCreatePage in a
-   * modal and then adds the new item to our data source if the user created one.
-   */
-  addItem() {
-    let addModal = this.modalCtrl.create('ItemCreatePage');
-    addModal.onDidDismiss(item => {
-      if (item) {
-        this.items.add(item);
-      }
-    })
-    addModal.present();
-  }
 
   /**
    * Delete an item from the list of items.
@@ -55,6 +42,7 @@ export class ListMasterPage {
     });
   }
 
+  // 打开新增工具栏
   presentPopover(myEvent) {
     // 通过组件别名创建
     let popover = this.popoverCtrl.create('PopoverPage');
