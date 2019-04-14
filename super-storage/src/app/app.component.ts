@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform } from 'ionic-angular';
 
-import { FirstRunPage } from '../pages';
+import { FirstRunPage,MainPage } from '../pages';
 import { Settings } from '../providers';
 
 @Component({
@@ -44,7 +44,7 @@ export class MyApp {
     { title: 'Settings', component: 'SettingsPage' },
     { title: 'Search', component: 'SearchPage' },
     { title: 'Popover', component: 'PopoverPage' }
-  ]
+  ];
 
   constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
     platform.ready().then(() => {
@@ -52,6 +52,12 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+    });
+    // 判断用户是否已经登陆
+    settings.getUser().then((user)=>{
+      if(user){
+        this.rootPage = MainPage;
+      }
     });
     this.initTranslate();
   }

@@ -9,7 +9,7 @@ export class Items {
   constructor(public api: Api) { }
 
   query(params?: any) {
-    return this.api.get('/items', params);
+    return this.api.get('items/queryItems', params);
   }
 
   add(item: Item) {

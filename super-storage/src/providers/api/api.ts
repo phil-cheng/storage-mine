@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class Api {
-  url: string = 'http://localhost:8100';
+  url: string = 'http://192.168.1.45:8082/storage-api';
 
   constructor(public http: HttpClient) {
   }

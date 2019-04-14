@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class Settings {
   private SETTINGS_KEY: string = '_settings';
+  private USER_KEY: string = '_user';
 
   settings: any;
 
@@ -68,5 +69,17 @@ export class Settings {
 
   get allSettings() {
     return this.settings;
+  }
+
+  // 在settings 内扩展用户存储信息
+  // 把登陆的用户认证信息存放到storage
+  setUser(value: any) {
+    return this.storage.set(this.USER_KEY,value);
+  }
+  getUser() {
+    return this.storage.get(this.USER_KEY);
+  }
+  removeUser() {
+    return this.storage.remove(this.USER_KEY);
   }
 }

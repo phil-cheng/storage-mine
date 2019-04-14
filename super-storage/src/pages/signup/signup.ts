@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController, AlertController } from 'ionic-angular';
 
-import { User } from '../../providers';
+import { User,Settings } from '../../providers';
 import { MainPage } from '../';
 
 
@@ -29,7 +29,8 @@ export class SignupPage {
     public user: User,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    public settings: Settings) {
 
     this.translateService.get('SIGNUP_ERROR').subscribe((value) => {
       this.signupErrorString = value;
@@ -37,7 +38,6 @@ export class SignupPage {
   }
 
   doSignup() {
-
     // email格式验证
     if(this.account.email){
       let emailReg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
@@ -65,12 +65,24 @@ export class SignupPage {
     }
 
     // Attempt to login in through our User service
-    this.user.signup(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
+    this.user.signup(this.account).subscribe((res: any) => {
+        if(res.code && res.code == "000000"){
+          // 保存用户信息
+          this.settings.setUser({
+            "email": this.account.email,
+            "tokenId": res.data.tokenId
+          });
+          // 页面跳转
+          this.navCtrl.push(MainPage);
+        }else{
+          let toast = this.toastCtrl.create({
+            message: res.msg,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+        }
     }, (err) => {
-
-      //this.navCtrl.push(MainPage);
-
       // Unable to sign up
       let toast = this.toastCtrl.create({
         message: this.signupErrorString,

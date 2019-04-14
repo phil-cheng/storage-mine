@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController, AlertController } from 'ionic-angular';
 
-import { User } from '../../providers';
+import { User,Settings } from '../../providers';
 import { MainPage } from '../';
 
 @IonicPage()
@@ -26,7 +26,8 @@ export class LoginPage {
     public user: User,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    public settings: Settings) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
@@ -49,10 +50,25 @@ export class LoginPage {
       }
     }
 
-    this.user.login(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
+    // 登录
+    this.user.login(this.account).subscribe((res: any) => {
+      if(res.code && res.code == "000000"){
+        // 保存用户信息
+        this.settings.setUser({
+          "email": this.account.email,
+          "tokenId": res.data.tokenId
+        });
+        // 页面跳转
+        this.navCtrl.push(MainPage);
+      }else{
+        let toast = this.toastCtrl.create({
+          message: res.msg,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      }
     }, (err) => {
-      this.navCtrl.push(MainPage);
       // Unable to log in
       let toast = this.toastCtrl.create({
         message: this.loginErrorString,
