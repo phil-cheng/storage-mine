@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
-import { IonicPage, NavController, ViewController } from 'ionic-angular';
+import {IonicPage, NavController, ToastController, ViewController} from 'ionic-angular';
+import {Items, Settings} from "../../providers";
 
 @IonicPage()
 @Component({
@@ -17,14 +18,15 @@ export class ItemCreatePage {
 
   form: FormGroup;
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
+  constructor(public navCtrl: NavController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera,
+              public toastCtrl: ToastController, public settings: Settings, public items: Items) {
     this.form = formBuilder.group({
-      profilePic: [''],
+      profilePic: ['', Validators.required],
       name: ['', Validators.required],
       title: ['', Validators.required],
       num: ['', Validators.required],
       price: ['', Validators.required],
-      createDate: [''],
+      produceDate: [''],
       expireDate: [''],
       link: [''],
       note: [''],
@@ -37,9 +39,8 @@ export class ItemCreatePage {
     });
   }
 
-  ionViewDidLoad() {
-
-  }
+  // ionViewDidLoad() {
+  // }
 
   getPicture() {
     if (Camera['installed']()) {
@@ -85,6 +86,34 @@ export class ItemCreatePage {
    */
   done() {
     if (!this.form.valid) { return; }
-    this.viewCtrl.dismiss(this.form.value);
+    // 获取用户信息
+    this.settings.getUser().then((user)=>{
+      if(user && user.tokenId){
+        let params = this.form.value;
+        params['userId'] = user.tokenId;
+        // 发送请求
+        this.items.add(params).subscribe((res: any) => {
+          if(res.code && res.code == "000000"){
+            // 关闭页面
+            this.viewCtrl.dismiss();
+          }else{
+            let toast = this.toastCtrl.create({
+              message: res.msg,
+              duration: 3000,
+              position: 'top'
+            });
+            toast.present();
+          }
+        }, (err) => {
+          let toast = this.toastCtrl.create({
+            message: "网络异常",
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+        });
+      }
+    });
+    // this.viewCtrl.dismiss(this.form.value);
   }
 }

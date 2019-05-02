@@ -15,4 +15,46 @@
     <h2>{{item.name}}</h2>
     <p>{{item.about}}</p>
   </div>
+
+  <!-- 文件夹显示-->
+  <ion-list *ngIf="item.type == 0">
+    <ion-item>
+      <ion-input type="text" placeholder="{{ 'ITEM_NAME_PLACEHOLDER' | translate }}" readonly value="{{item.name}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="{{ 'ITEM_TITLE_PLACEHOLDER' | translate }}" readonly value="{{item.title}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea  placeholder="{{ 'ITEM_NOTE_PLACEHOLDER' | translate }}" readonly value="{{item.note}}"></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <!-- 物品显示-->
+  <ion-list *ngIf="item.type == 1">
+    <ion-item>
+      <ion-input type="text" placeholder="{{ 'ITEM_NAME_PLACEHOLDER' | translate }}" readonly value="{{item.name}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="{{ 'ITEM_TITLE_PLACEHOLDER' | translate }}" readonly value="{{item.title}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="number" placeholder="{{ 'ITEM_NUMBER_PLACEHOLDER' | translate }}" readonly value="{{item.num}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="number" placeholder="{{ 'ITEM_PRICE_PLACEHOLDER' | translate }}" readonly value="{{item.price}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="{{ 'ITEM_CREATE_DATE_PLACEHOLDER' | translate }}" readonly value="{{item.produceDate | date:'yyyy-MM-dd'}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="{{ 'ITEM_EXPIRE_DATE_PLACEHOLDER' | translate }}" readonly value="{{item.expireDate | date:'yyyy-MM-dd'}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="{{ 'ITEM_LINK_PLACEHOLDER' | translate }}" readonly value="{{item.link}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea  placeholder="{{ 'ITEM_NOTE_PLACEHOLDER' | translate }}" readonly value="{{item.note}}" ></ion-textarea>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

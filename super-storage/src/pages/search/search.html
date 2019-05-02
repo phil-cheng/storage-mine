@@ -8,15 +8,22 @@
 
 
 <ion-content>
-  <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
+  <div style="height:0px"> <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" /></div> 
+  <ion-buttons start>
+    <button ion-button icon-only color="light" (click)="getPicture()">
+      <ion-icon name="camera"></ion-icon>
+    </button>
+    <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" rnd></ion-searchbar>
+  </ion-buttons>
+
   <ion-list>
     <button ion-item (click)="openItem(item)" *ngFor="let item of currentItems">
       <ion-avatar item-start>
         <img [src]="item.profilePic" />
       </ion-avatar>
       <h2>{{item.name}}</h2>
-      <p>{{item.about}}</p>
-      <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
+      <p>{{item.type == 1 ? '物品' : '文件夹' }}</p>
+      <ion-note item-end *ngIf="item.note">{{item.title | slice:0:6}}</ion-note>
     </button>
   </ion-list>
 </ion-content>

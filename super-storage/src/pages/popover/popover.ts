@@ -23,13 +23,11 @@ export class PopoverPage {
  // 新增物品
   addItem() {
     // 隐藏popover
-    this.viewCtrl.dismiss();
+    // this.viewCtrl.dismiss();
     // 创建新窗口
     let addModal = this.modalCtrl.create('ItemCreatePage');
     addModal.onDidDismiss(item => {
-      if (item) {
-        this.items.add(item);
-      }
+      this.viewCtrl.dismiss(1);
     });
     addModal.present();
   }
@@ -37,13 +35,11 @@ export class PopoverPage {
   // 创建文件夹
   addDir() {
     // 隐藏popover
-    this.viewCtrl.dismiss();
+    //  this.viewCtrl.dismiss();
     // 创建新窗口
     let addModal = this.modalCtrl.create('DirCreatePage');
     addModal.onDidDismiss(item => {
-      if (item) {
-        this.items.add(item);
-      }
+      this.viewCtrl.dismiss(1);
     });
     addModal.present();
   }

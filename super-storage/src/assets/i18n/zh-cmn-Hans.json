@@ -35,11 +35,11 @@
   "SETTINGS_OPTION1": "选项 1",
   "SETTINGS_OPTION2": "选项 2",
   "SETTINGS_OPTION3": "选项 3",
-  "SETTINGS_OPTION4": "选项 4",
+  "SETTINGS_OPTION4": "标签",
 
-  "SETTINGS_PROFILE_BUTTON": "编辑资料",
+  "SETTINGS_PROFILE_BUTTON": "标签管理",
 
-  "SETTINGS_PAGE_PROFILE": "编辑资料",
+  "SETTINGS_PAGE_PROFILE": "标签管理",
 
   "WELCOME_TITLE": "欢迎",
 
@@ -49,6 +49,7 @@
   "SIGNUP_TITLE": "注 册",
   "SIGNUP_ERROR": "无法创建账号。请检查账户信息然后重试。",
   "SIGNUP_BUTTON": "注 册",
+  "EXIT_BUTTON": "退出",
 
   "LIST_MASTER_TITLE": "首页",
 
@@ -70,9 +71,10 @@
   "DONE_BUTTON": "完 成",
   "CANCEL_BUTTON": "取 消",
   "DELETE_BUTTON": "删 除",
+  "EDIT_BUTTON": "修改",
 
   "CARDS_TITLE": "社交",
 
   "SEARCH_TITLE": "搜索",
-  "SEARCH_PLACEHOLDER": "搜索项目列表, 比如：\"Donald Duck\""
+  "SEARCH_PLACEHOLDER": "搜索物品或文件夹, 比如：\"外套\""
 }
