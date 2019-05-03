@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cf.storage.core.items.dao.ItemsMapper">
+  
+  <resultMap id="BaseResultMap" type="com.cf.storage.core.items.po.Items">
+  	<result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="produce_date" jdbcType="DATE" property="produceDate" />
+    <result column="exprie_date" jdbcType="DATE" property="exprieDate" />
+    <result column="link" jdbcType="VARCHAR" property="link" />
+    <result column="total_price" jdbcType="DOUBLE" property="totalPrice" />
+    <result column="img_finger" jdbcType="VARCHAR" property="imgFinger" />
+    <result column="profile_pic" jdbcType="VARCHAR" property="profilePic" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="upateTime" />
+  </resultMap>
+	
+	<!-- 查找 -->
+	<select id="queryItems" resultMap="BaseResultMap">
+		select id,name,path,pid,type,title,note,num,price,
+		produce_date,exprie_date,
+		link,total_price,img_finger,create_time,update_time,user_id,profile_pic
+ 		from items t
+		<where>
+			<if test="searchName!=null and searchName!=''">
+				AND (
+					(t.name LIKE CONCAT(CONCAT("%",#{searchName}),"%")) OR (t.title LIKE CONCAT(CONCAT("%",#{searchName}),"%"))
+				)
+			</if>
+			<if test="pId != null and pId != '' ">
+				AND t.pid = #{pId}
+			</if>
+			<if test="userId != null and userId != '' ">
+				AND t.user_id = #{userId}
+			</if>
+		</where>
+		ORDER BY T.TYPE ASC
+	</select>
+	
+	
+	<!-- 查找 -->
+	<select id="queryItemsByImage" resultMap="BaseResultMap">
+		select id,name,path,pid,type,title,note,num,price,
+		produce_date,exprie_date,
+		link,total_price,img_finger,create_time,update_time,user_id,profile_pic,
+		BIT_COUNT( CONV(img_finger, 2, 10) ^ CONV(#{imagHash}, 2, 10) ) as hamming_distance
+ 		from items t
+		ORDER BY hamming_distance ASC; 
+	</select>
+	
+	
+	<delete id="deleteItemsRecursion" parameterType="com.cf.storage.core.items.po.Items">  
+	        DELETE FROM items WHERE path like CONCAT(CONCAT("%",#{id}),"%")
+	</delete>  
+	
+</mapper>

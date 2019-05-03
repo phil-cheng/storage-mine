@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cf.storage.core.log.dao.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.cf.storage.core.log.po.SysLog">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="req_params" jdbcType="VARCHAR" property="reqParams" />
+    <result column="ip_address" jdbcType="VARCHAR" property="ipAddress" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="opt" jdbcType="VARCHAR" property="opt" />
+    <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+    <result column="req_uri" jdbcType="VARCHAR" property="reqUri" />
+    <result column="full_name" jdbcType="VARCHAR" property="fullName" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="sequence_no" jdbcType="VARCHAR" property="sequenceNo" />
+    <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+    <result column="ret_values" jdbcType="VARCHAR" property="retValues" />
+    <result column="exec_time" jdbcType="BIGINT" property="execTime" />
+    <result column="opt_user_id" jdbcType="VARCHAR" property="optUserId" />
+    <result column="opt_user_name" jdbcType="VARCHAR" property="optUserName" />
+  </resultMap>
+</mapper>

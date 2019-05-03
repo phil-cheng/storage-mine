@@ -1,0 +1,158 @@
+apply plugin: "java"
+apply plugin: "war"
+apply plugin: "eclipse"
+apply plugin: 'eclipse-wtp'
+
+processResources {
+	//将dao包的xml文件增加到war包中
+	from('src/main/java') {
+		include '**/*.xml'
+	}
+	//将resource中增加到war包中
+	from('src/main/resource') {
+		include '**/*'
+	}
+}
+
+
+//指定编译的编码
+tasks.withType(JavaCompile){
+	options.encoding = "UTF-8"
+}
+
+//
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'org.hidetake:gradle-ssh-plugin:2.9.0'
+  }
+}
+
+apply plugin: 'org.hidetake.ssh'
+
+
+repositories {
+  //mavenLocal()
+  //mavenCentral()
+  maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+}
+
+
+ext{
+  spring_version="4.2.3.RELEASE"
+  mybatis_version = "3.4.4"
+}
+
+dependencies {
+	//引入本地加入的jar包
+	compile fileTree(dir:'src/main/webapp/WEB-INF/lib',include:['*.jar'])
+    compile (
+    	//servlet
+    	"javax.servlet:javax.servlet-api:3.1.0",
+    	
+	    //spring
+	    "org.springframework:spring-context-support:${spring_version}",
+	    "org.springframework:spring-core:${spring_version}",
+	    "org.springframework:spring-beans:${spring_version}",
+	    "org.springframework:spring-context:${spring_version}",
+	    "org.springframework:spring-tx:${spring_version}",
+	    "org.springframework:spring-web:${spring_version}",
+	    "org.springframework:spring-webmvc:${spring_version}",
+	    "org.springframework:spring-aop:${spring_version}",
+	    "org.springframework:spring-jdbc:${spring_version}",
+	    "org.springframework:spring-test:${spring_version}",
+		
+		//切面
+		"org.aspectj:aspectjweaver:1.8.6",
+		
+		//commons
+		"org.apache.commons:commons-lang3:3.3.2",
+		"commons-io:commons-io:2.2",
+		"commons-fileupload:commons-fileupload:1.3",
+		//apach解码转换工具
+		"commons-codec:commons-codec:1.11",
+		
+		// json
+		"net.sf.json-lib:json-lib:2.4:jdk15",
+		//jackson json工具
+		"com.fasterxml.jackson.core:jackson-core:2.6.7",
+		"com.fasterxml.jackson.core:jackson-databind:2.6.7",
+		//阿里转换json工具
+		"com.alibaba:fastjson:1.2.31",
+		
+		// mysql
+		"mysql:mysql-connector-java:5.1.37",
+		 
+		//mybatis jar包
+	    "org.mybatis:mybatis-spring:1.3.0",
+	    "org.mybatis:mybatis:${mybatis_version}",
+	    //通用mapper
+		"tk.mybatis:mapper:3.4.3",
+		// mybatis generator 
+		"org.mybatis.generator:mybatis-generator-core:1.3.5",
+		//mybatis 分页
+		"com.github.pagehelper:pagehelper:5.1.2",
+	   
+		//druid连接池
+		"com.alibaba:druid:1.0.15",
+		
+		//jsp
+		"javax.servlet.jsp.jstl:jstl-api:1.2",
+		"taglibs:standard:1.1.2",
+		
+		//log4j2 配置
+		"org.apache.logging.log4j:log4j-api:2.8.2",
+		"org.apache.logging.log4j:log4j-core:2.8.2",
+		"org.apache.logging.log4j:log4j-web:2.8.2",
+		//桥接：告诉Slf4j使用Log4j2日志类库
+		"org.apache.logging.log4j:log4j-slf4j-impl:2.8.2",
+		//commons-logging到slf4j的桥梁
+		"org.slf4j:jcl-over-slf4j:1.7.25",
+		"org.slf4j:log4j-over-slf4j:1.7.25",
+		  
+		//beginWX(包含COMMON-IO)
+		//apach http
+		"org.apache.httpcomponents:httpclient:4.5.2",
+		"org.apache.httpcomponents:httpmime:4.5.2",
+		//json
+		"org.codehaus.jackson:jackson-mapper-asl:1.9.13",
+		
+		// 二维码  
+		"com.google.zxing:core:3.3.0",
+		"com.google.zxing:javase:3.3.0",
+		
+		//gradle-ssh
+		"org.hidetake:gradle-ssh-plugin:2.9.0",
+		  
+		//pinyin 4j
+		"com.belerweb:pinyin4j:2.5.1",
+		
+		//cors
+		"com.thetransactioncompany:cors-filter:2.5"
+	)
+    testCompile 'junit:junit:4.12'
+}
+
+
+remotes {
+	web01 {
+		host = ''  
+        port = 22  
+        user = ""  
+        password = "" 
+	}
+  }
+  
+  ssh.settings {
+	  knownHosts = allowAnyHosts
+  }
+ 
+ task deployT(dependsOn: war) << {
+	 ssh.run {
+		 session(remotes.web01) {
+			 put from: war.archivePath.path, into: 'C:\\Users\\Administrator\\Desktop'
+			 }
+	 }
+  }

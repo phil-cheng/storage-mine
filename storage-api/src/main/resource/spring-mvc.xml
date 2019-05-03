@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/aop
+       	http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 启用spring mvc 注解 -->
+	<mvc:annotation-driven/>
+	
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="com.cf.storage.*" />
+	
+	<!-- 静态资源访问 -->
+	<mvc:resources location="/static/" mapping="/static/**" />
+    
+    <!-- 视图解析器:定义跳转的文件的前后缀 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- 定义拦截器 -->
+	<mvc:interceptors>
+		<!-- 日志拦截--> 
+		<mvc:interceptor>
+			<mvc:mapping path="/**/**" />
+			<mvc:exclude-mapping path="/static/**" />
+			<ref bean="logInterceptor"/>
+		</mvc:interceptor>
+		
+		<!--网页session拦截验证 -->
+		<!-- <mvc:interceptor>
+			<mvc:mapping path="/**" />
+			不拦截静态资源
+			<mvc:exclude-mapping path="/static/**" />
+			不拦截out
+			<mvc:exclude-mapping path="/core/out/**" />
+			<ref bean="authorizationInterceptor"/>
+		</mvc:interceptor> -->
+		
+	</mvc:interceptors>
+	
+	<!-- 访问日志拦截 -->
+	<bean id="logInterceptor" class="com.cf.storage.common.LogInterceptor" />
+	<!--用户网页登陆拦截  -->
+	<!-- <bean id ="authorizationInterceptor" class="com.cf.storage.common.URLsInceptor">
+		<property name="loginUrl" value="/core/out/toLoginView"></property>
+		<property name="checkAuthFlag" value="false"></property>
+		<property name="excludePattern">
+			<list></list>
+		</property>
+	</bean> -->
+	
+	<!-- 注入SpringTool -->
+	<bean class="com.cf.storage.util.SpringTool"/>
+	
+	<!-- 上传拦截，如最大上传值及最小上传值 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize">
+			<value>104857600</value>
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+		<property name="defaultEncoding">
+			<value>utf-8</value>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cf.storage.core.user.dao.UserViewMapper">
+  
+  <resultMap id="BaseResultMap" type="com.cf.storage.core.user.po.UserView">
+  	<result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="upateTime" />
+  </resultMap>
+	
+	<!-- 使用邮箱查询用户信息 -->
+	<select id="getUserByEmail" resultMap="BaseResultMap"  parameterType="java.lang.String">
+		select * from user a
+		<where>
+			<if test="_parameter != null and _parameter != ''">
+				a.email = #{_parameter}
+			</if>
+		</where> 
+	</select>
+	
+</mapper>
